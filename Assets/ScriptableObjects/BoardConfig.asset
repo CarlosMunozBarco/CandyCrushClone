@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367b6157d1ef7464b9f1708c09ce43ce, type: 3}
+  m_Name: BoardConfig
+  m_EditorClassIdentifier: 
+  shapePattern: '########
+
+    ########
+
+    ########
+
+    ########
+
+    ########
+
+    ########
+
+    ########
+
+    ########'
+  cellSize: 0.9
+  cellSpacing: 0
+  fallDuration: 0.075
+  swapDuration: 0.15
+  candyDataSet:
+  - {fileID: 11400000, guid: d1c27504b37ab3f4697ac09caf28ebe6, type: 2}
+  - {fileID: 11400000, guid: cd6efa11979aa0847a8dacc013191918, type: 2}
+  - {fileID: 11400000, guid: 379e94f0d896cbe4e81e176f406a0bf9, type: 2}
+  - {fileID: 11400000, guid: f0c700e1d5c4cdd47b062a09d40ba08d, type: 2}
+  - {fileID: 11400000, guid: 2efa6617899a3ec4eb326f55c531f576, type: 2}
+  specialCandyDataSet:
+  - {fileID: 11400000, guid: e1be60c1d351537449f0ca6130f5a84a, type: 2}
+  - {fileID: 11400000, guid: 99c94cb4da0c7e9498f2468ada69e4a7, type: 2}
+  - {fileID: 11400000, guid: e85d535099d93ed49b32694f3143572c, type: 2}
+  - {fileID: 11400000, guid: f15f4a2856e46f1439c3ef4e71c25ba4, type: 2}
+  - {fileID: 11400000, guid: 069bf27c95d1e6b40a58c9b7910bfc8a, type: 2}
+  specialCandySpawnChance: 0.02
