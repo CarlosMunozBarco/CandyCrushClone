@@ -168,23 +168,20 @@ public class ResolvingState : IGameState
 
         while (queue.Count > 0)
         {
-            Vector2Int pos = queue.Dequeue();
-            for (int col = 0; col < m.boardManager.Columns; col++)
+            Vector2Int pos      = queue.Dequeue();
+            CandyCell  origin   = m.boardManager.GetCell(pos);
+            if (origin == null || origin.IsEmpty) continue;
+
+            var affected = origin.Candy.SpecialBehaviour.GetAffectedPositions(
+                pos, m.boardManager.Columns, m.boardManager.Rows);
+
+            foreach (Vector2Int np in affected)
             {
-                var np = new Vector2Int(col, pos.y);
                 if (expanded.Add(np))
                 {
                     CandyCell c = m.boardManager.GetCell(np);
-                    if (c != null && !c.IsEmpty && c.Candy.IsSpecial) queue.Enqueue(np);
-                }
-            }
-            for (int row = 0; row < m.boardManager.Rows; row++)
-            {
-                var np = new Vector2Int(pos.x, row);
-                if (expanded.Add(np))
-                {
-                    CandyCell c = m.boardManager.GetCell(np);
-                    if (c != null && !c.IsEmpty && c.Candy.IsSpecial) queue.Enqueue(np);
+                    if (c != null && !c.IsEmpty && c.Candy.IsSpecial)
+                        queue.Enqueue(np);
                 }
             }
         }

@@ -54,11 +54,10 @@ public class RefillState : IGameState
                 int       typeIndex = Random.Range(0, m.boardManager.Config.candyDataSet.Length);
                 CandyData data      = m.boardManager.Config.candyDataSet[typeIndex];
 
-                if (Random.value < m.boardManager.Config.specialCandySpawnChance)
-                {
-                    CandyData special = m.boardManager.Config.GetSpecialCandyData(data.candyType);
-                    if (special != null) data = special;
-                }
+                CandyData special = m.boardManager.Config.RollSpecialCandyData(data.candyType);
+                if (special != null && special.specialBehaviour is BombBehaviour)
+                    Debug.Log($"[Bomb] Bomba seleccionada en refill");
+                if (special != null) data = special;
 
                 CandyBehaviour candy = m.candyPool.Get(data, spawnWorld);
                 cell.SetCandy(candy);

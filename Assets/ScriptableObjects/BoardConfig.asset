@@ -43,4 +43,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e85d535099d93ed49b32694f3143572c, type: 2}
   - {fileID: 11400000, guid: f15f4a2856e46f1439c3ef4e71c25ba4, type: 2}
   - {fileID: 11400000, guid: 069bf27c95d1e6b40a58c9b7910bfc8a, type: 2}
-  specialCandySpawnChance: 0.02
+  - {fileID: 11400000, guid: 22bf1fd1db3648748a1e77a68e8cd567, type: 2}
+  specialCandySpawnChance: 0.05

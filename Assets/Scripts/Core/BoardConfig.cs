@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BoardConfig", menuName = "CandyCrush/BoardConfig")]
@@ -14,8 +15,6 @@ public class BoardConfig : ScriptableObject
     public float       swapDuration = 0.15f;
     public CandyData[] candyDataSet;
     public CandyData[] specialCandyDataSet;
-    [Range(0f, 1f)]
-    public float       specialCandySpawnChance = 0.02f;
 
     public CandyData GetCandyData(CandyType type)
     {
@@ -27,8 +26,21 @@ public class BoardConfig : ScriptableObject
     public CandyData GetSpecialCandyData(CandyType type)
     {
         foreach (var d in specialCandyDataSet)
-            if (d != null && d.candyType == type) return d;
+            if (d != null && !d.specialBehaviour.IsColorIndependent && d.candyType == type) return d;
         return null;
+    }
+
+    public CandyData RollSpecialCandyData(CandyType baseType)
+    {
+        var winners = new List<CandyData>();
+        foreach (var d in specialCandyDataSet)
+        {
+            if (d == null || d.specialBehaviour == null) continue;
+            bool eligible = d.specialBehaviour.IsColorIndependent || d.candyType == baseType;
+            if (eligible && Random.value < d.specialBehaviour.spawnChance)
+                winners.Add(d);
+        }
+        return winners.Count > 0 ? winners[Random.Range(0, winners.Count)] : null;
     }
 
     public int Columns { get; private set; }

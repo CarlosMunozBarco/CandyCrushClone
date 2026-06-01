@@ -7,18 +7,22 @@ public class CandyBehaviour : MonoBehaviour
     [SerializeField] private Sprite[]       explosionFrames;
     [SerializeField] private float          explosionFps = 12f;
 
-    public CandyType  CandyType { get; private set; }
-    public bool       IsSpecial { get; private set; }
-    public Vector2Int GridPos   { get; set; }
-    public bool       IsMoving  { get; private set; }
+    public CandyType             CandyType        { get; private set; }
+    public bool                  IsSpecial        => SpecialBehaviour != null;
+    public CandySpecialBehaviour SpecialBehaviour { get; private set; }
+    public Vector2Int            GridPos          { get; set; }
+    public bool                  IsMoving         { get; private set; }
 
     public void Initialize(CandyData data)
     {
         CandyType             = data.candyType;
-        IsSpecial             = data.isSpecial;
+        SpecialBehaviour      = data.specialBehaviour;
         spriteRenderer.sprite = data.sprite;
         spriteRenderer.color  = data.tintColor;
         gameObject.SetActive(true);
+
+        if (SpecialBehaviour is BombBehaviour)
+            Debug.Log($"[Bomb] Caramelo bomba creado en {GridPos}");
     }
 
     public void ResetForPool()

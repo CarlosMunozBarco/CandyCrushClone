@@ -24,6 +24,9 @@ public class MatchCheckState : IGameState
             ? m.matchFinder.FindMatchesForSwap(m.boardManager, m.PendingSwapA, m.PendingSwapB)
             : m.matchFinder.FindAllMatches(m.boardManager);
 
+        if (m.IsPostSwapCheck)
+            AddSwapActivatedSpecials(m, matches);
+
         if (matches.Count > 0)
         {
             m.CurrentMatches = matches;
@@ -37,6 +40,22 @@ public class MatchCheckState : IGameState
         else
         {
             m.TransitionTo(m.StateIdle);
+        }
+    }
+
+    private void AddSwapActivatedSpecials(GameStateMachine m, HashSet<Vector2Int> matches)
+    {
+        foreach (Vector2Int pos in new[] { m.PendingSwapA, m.PendingSwapB })
+        {
+            CandyCell cell = m.boardManager.GetCell(pos);
+            if (cell == null || cell.IsEmpty) continue;
+
+            CandySpecialBehaviour beh = cell.Candy.SpecialBehaviour;
+            if (beh == null || !beh.ActivatesOnSwap) continue;
+
+            matches.Add(pos);
+            foreach (Vector2Int affected in beh.GetAffectedPositions(pos, m.boardManager.Columns, m.boardManager.Rows))
+                matches.Add(affected);
         }
     }
 

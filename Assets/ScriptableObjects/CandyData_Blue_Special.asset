@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CandyData_Blue_Special
   m_EditorClassIdentifier: 
   candyType: 4
-  isSpecial: 1
+  specialBehaviour: {fileID: 11400000, guid: e79e6b62b534d634ea497c151d40c796, type: 2}
   sprite: {fileID: 1709136284, guid: 546b5c0342283de43869164e2996398c, type: 3}
   tintColor: {r: 1, g: 1, b: 1, a: 1}
