@@ -39,6 +39,7 @@ public class MatchFinder : MonoBehaviour
             return new List<Vector2Int>();
 
         CandyType type = start.Candy.CandyType;
+        if (start.Candy.IsSpecial && start.Candy.SpecialBehaviour.MatchesAnyColor) return new List<Vector2Int>();
 
         int leftCol = col;
         while (leftCol > 0 && SameType(board.GetCell(leftCol - 1, row), type))
@@ -60,6 +61,7 @@ public class MatchFinder : MonoBehaviour
             return new List<Vector2Int>();
 
         CandyType type = start.Candy.CandyType;
+        if (start.Candy.IsSpecial && start.Candy.SpecialBehaviour.MatchesAnyColor) return new List<Vector2Int>();
 
         int bottomRow = row;
         while (bottomRow > 0 && SameType(board.GetCell(col, bottomRow - 1), type))
@@ -120,5 +122,7 @@ public class MatchFinder : MonoBehaviour
     }
 
     private bool SameType(CandyCell cell, CandyType type)
-        => cell != null && cell.IsActive && !cell.IsEmpty && cell.Candy.CandyType == type;
+        => cell != null && cell.IsActive && !cell.IsEmpty &&
+           (cell.Candy.CandyType == type ||
+            (cell.Candy.IsSpecial && cell.Candy.SpecialBehaviour.MatchesAnyColor));
 }

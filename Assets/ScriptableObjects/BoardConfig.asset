@@ -31,6 +31,7 @@ MonoBehaviour:
   cellSpacing: 0
   fallDuration: 0.075
   swapDuration: 0.15
+  cascadeSpawnBias: 0.1
   candyDataSet:
   - {fileID: 11400000, guid: d1c27504b37ab3f4697ac09caf28ebe6, type: 2}
   - {fileID: 11400000, guid: cd6efa11979aa0847a8dacc013191918, type: 2}
@@ -44,4 +45,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f15f4a2856e46f1439c3ef4e71c25ba4, type: 2}
   - {fileID: 11400000, guid: 069bf27c95d1e6b40a58c9b7910bfc8a, type: 2}
   - {fileID: 11400000, guid: 22bf1fd1db3648748a1e77a68e8cd567, type: 2}
-  specialCandySpawnChance: 0.05
+  - {fileID: 11400000, guid: a479db470786fed4ba3040c530ed1faa, type: 2}

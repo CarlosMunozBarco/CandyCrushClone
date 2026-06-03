@@ -42,13 +42,13 @@ public class ResolvingState : IGameState
             if (candy != null) toExplode.Add(candy);
         }
 
-        m.AddScore(toExplode.Count * 100);
+        m.AddScore(toExplode.Count * 100 * Mathf.Max(1, m.CascadeLevel));
         yield return AnimationHelper.WaitForAll(m, BuildExplosions(toExplode));
         foreach (CandyBehaviour candy in toExplode) m.candyPool.Return(candy);
 
         foreach (var entry in specialsToSpawn)
         {
-            CandyData specialData = m.boardManager.Config.GetSpecialCandyData(entry.type);
+            CandyData specialData = m.boardManager.Config.GetSpecialCandyDataForSpawn(entry.type);
             if (specialData == null)
             {
                 Debug.LogWarning($"[Special] No SO especial para CandyType={entry.type}. Revisa specialCandyDataSet en BoardConfig.");
@@ -90,7 +90,8 @@ public class ResolvingState : IGameState
             CandyCell cell = m.boardManager.GetCell(spawnPos);
             if (cell == null || cell.IsEmpty) continue;
 
-            result.Add(new SpawnEntry(spawnPos, cell.Candy.CandyType));
+            CandyType spawnType = run.Count >= 5 ? CandyType.All : cell.Candy.CandyType;
+            result.Add(new SpawnEntry(spawnPos, spawnType));
         }
 
         return result;
@@ -166,14 +167,15 @@ public class ResolvingState : IGameState
                 queue.Enqueue(pos);
         }
 
+        var ctx = new SpecialActivationContext { Board = m.boardManager, CurrentMatches = expanded };
+
         while (queue.Count > 0)
         {
-            Vector2Int pos      = queue.Dequeue();
-            CandyCell  origin   = m.boardManager.GetCell(pos);
+            Vector2Int pos    = queue.Dequeue();
+            CandyCell  origin = m.boardManager.GetCell(pos);
             if (origin == null || origin.IsEmpty) continue;
 
-            var affected = origin.Candy.SpecialBehaviour.GetAffectedPositions(
-                pos, m.boardManager.Columns, m.boardManager.Rows);
+            var affected = origin.Candy.SpecialBehaviour.GetAffectedPositions(pos, ctx);
 
             foreach (Vector2Int np in affected)
             {

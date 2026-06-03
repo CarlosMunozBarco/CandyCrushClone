@@ -20,6 +20,8 @@ public class MatchCheckState : IGameState
     {
         yield return null;
 
+        if (m.IsPostSwapCheck) m.CascadeLevel = 0;
+
         HashSet<Vector2Int> matches = m.IsPostSwapCheck
             ? m.matchFinder.FindMatchesForSwap(m.boardManager, m.PendingSwapA, m.PendingSwapB)
             : m.matchFinder.FindAllMatches(m.boardManager);
@@ -29,7 +31,10 @@ public class MatchCheckState : IGameState
 
         if (matches.Count > 0)
         {
+            m.CascadeLevel++;
             m.CurrentMatches = matches;
+            if (m.CascadeLevel >= 2)
+                m.gameUI.ShowComboText(m.CascadeLevel);
             m.TransitionTo(m.StateResolving);
         }
         else if (m.IsPostSwapCheck)
@@ -53,8 +58,17 @@ public class MatchCheckState : IGameState
             CandySpecialBehaviour beh = cell.Candy.SpecialBehaviour;
             if (beh == null || !beh.ActivatesOnSwap) continue;
 
+            Vector2Int partnerPos  = (pos == m.PendingSwapA) ? m.PendingSwapB : m.PendingSwapA;
+            CandyCell  partnerCell = m.boardManager.GetCell(partnerPos);
+            var ctx = new SpecialActivationContext
+            {
+                Board           = m.boardManager,
+                CurrentMatches  = matches,
+                SwapPartnerType = partnerCell != null && !partnerCell.IsEmpty ? partnerCell.Candy.CandyType : (CandyType?)null
+            };
+
             matches.Add(pos);
-            foreach (Vector2Int affected in beh.GetAffectedPositions(pos, m.boardManager.Columns, m.boardManager.Rows))
+            foreach (Vector2Int affected in beh.GetAffectedPositions(pos, ctx))
                 matches.Add(affected);
         }
     }

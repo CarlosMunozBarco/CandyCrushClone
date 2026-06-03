@@ -121,6 +121,35 @@ public class BoardManager : MonoBehaviour
         if (c != null) pool.Return(c);
     }
 
+    public Dictionary<CandyType, int> GetColorCounts()
+    {
+        var counts = new Dictionary<CandyType, int>();
+        for (int col = 0; col < Columns; col++)
+        for (int row = 0; row < Rows; row++)
+        {
+            CandyCell cell = GetCell(col, row);
+            if (cell == null || !cell.IsActive || cell.IsEmpty) continue;
+            CandyType type = cell.Candy.CandyType;
+            if (type == CandyType.All) continue;
+            if (!counts.ContainsKey(type)) counts[type] = 0;
+            counts[type]++;
+        }
+        return counts;
+    }
+
+    public List<Vector2Int> GetAllPositionsOfColor(CandyType type)
+    {
+        var positions = new List<Vector2Int>();
+        for (int col = 0; col < Columns; col++)
+        for (int row = 0; row < Rows; row++)
+        {
+            CandyCell cell = GetCell(col, row);
+            if (cell != null && cell.IsActive && !cell.IsEmpty && cell.Candy.CandyType == type)
+                positions.Add(new Vector2Int(col, row));
+        }
+        return positions;
+    }
+
     private void SpawnCellBackground(CandyCell cell)
     {
         GameObject bg = Instantiate(cellBackgroundPrefab, cell.WorldPos,

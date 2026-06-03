@@ -51,8 +51,7 @@ public class RefillState : IGameState
                                      + Vector3.up * step * (spawnOffset + 1);
                 spawnOffset++;
 
-                int       typeIndex = Random.Range(0, m.boardManager.Config.candyDataSet.Length);
-                CandyData data      = m.boardManager.Config.candyDataSet[typeIndex];
+                CandyData data = PickCandyData(m);
 
                 CandyData special = m.boardManager.Config.RollSpecialCandyData(data.candyType);
                 if (special != null && special.specialBehaviour is BombBehaviour)
@@ -81,6 +80,34 @@ public class RefillState : IGameState
 
         m.IsPostSwapCheck = false;
         m.TransitionTo(m.StateMatch);
+    }
+
+    private CandyData PickCandyData(GameStateMachine m)
+    {
+        var dataset = m.boardManager.Config.candyDataSet;
+        if (m.CascadeLevel < 2)
+            return dataset[Random.Range(0, dataset.Length)];
+
+        float biasStrength = m.boardManager.Config.cascadeSpawnBias;
+        var counts = m.boardManager.GetColorCounts();
+        var weights = new float[dataset.Length];
+        float totalWeight = 0f;
+
+        for (int i = 0; i < dataset.Length; i++)
+        {
+            int count = counts.TryGetValue(dataset[i].candyType, out int c) ? c : 0;
+            weights[i] = 1f + count * biasStrength;
+            totalWeight += weights[i];
+        }
+
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+        for (int i = 0; i < dataset.Length; i++)
+        {
+            cumulative += weights[i];
+            if (roll <= cumulative) return dataset[i];
+        }
+        return dataset[dataset.Length - 1];
     }
 
     private int GetTopActiveRow(BoardManager board, int col)

@@ -7,7 +7,7 @@ public class BombBehaviour : CandySpecialBehaviour
     public override bool IsColorIndependent => true;
     public override bool ActivatesOnSwap    => true;
 
-    public override List<Vector2Int> GetAffectedPositions(Vector2Int origin, int boardWidth, int boardHeight)
+    public override List<Vector2Int> GetAffectedPositions(Vector2Int origin, SpecialActivationContext ctx)
     {
         var positions = new List<Vector2Int>();
 
@@ -17,7 +17,7 @@ public class BombBehaviour : CandySpecialBehaviour
             {
                 if (dx == 0 && dy == 0) continue;
                 var neighbour = new Vector2Int(origin.x + dx, origin.y + dy);
-                if (IsInBounds(neighbour, boardWidth, boardHeight))
+                if (IsInBounds(neighbour, ctx))
                     positions.Add(neighbour);
             }
         }

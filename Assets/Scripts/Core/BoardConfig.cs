@@ -13,6 +13,9 @@ public class BoardConfig : ScriptableObject
     public float       cellSpacing  = 0.05f;
     public float       fallDuration = 0.13f;
     public float       swapDuration = 0.15f;
+    [Range(0f, 2f)]
+    [Tooltip("Peso extra por cada caramelo del color mas abundante al spawnear durante cascadas (CascadeLevel >= 2). 0 = sin bias, 0.4 = moderado, 2 = muy agresivo.")]
+    public float       cascadeSpawnBias = 0.4f;
     public CandyData[] candyDataSet;
     public CandyData[] specialCandyDataSet;
 
@@ -27,6 +30,13 @@ public class BoardConfig : ScriptableObject
     {
         foreach (var d in specialCandyDataSet)
             if (d != null && !d.specialBehaviour.IsColorIndependent && d.candyType == type) return d;
+        return null;
+    }
+
+    public CandyData GetSpecialCandyDataForSpawn(CandyType type)
+    {
+        foreach (var d in specialCandyDataSet)
+            if (d != null && d.candyType == type) return d;
         return null;
     }
 

@@ -20,6 +20,7 @@ public class GameStateMachine : MonoBehaviour
 
     public IGameState          CurrentState    { get; private set; }
     public int                 Score           { get; private set; }
+    public int                 CascadeLevel    { get; set; }
     public Coroutine           ActiveCoroutine { get; set; }
 
     public Vector2Int          PendingSwapA    { get; set; }
