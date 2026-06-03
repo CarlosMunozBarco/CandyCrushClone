@@ -113,14 +113,6 @@ public class MatchFinder : MonoBehaviour
         return false;
     }
 
-    public int GetMaxRunLengthAt(BoardManager board, Vector2Int pos)
-    {
-        return Mathf.Max(
-            GetHorizontalRun(board, pos.x, pos.y).Count,
-            GetVerticalRun(board, pos.x, pos.y).Count
-        );
-    }
-
     private bool SameType(CandyCell cell, CandyType type)
         => cell != null && cell.IsActive && !cell.IsEmpty &&
            (cell.Candy.CandyType == type ||

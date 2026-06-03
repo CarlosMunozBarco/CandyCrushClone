@@ -20,9 +20,6 @@ public class CandyBehaviour : MonoBehaviour
         spriteRenderer.sprite = data.sprite;
         spriteRenderer.color  = data.tintColor;
         gameObject.SetActive(true);
-
-        if (SpecialBehaviour is BombBehaviour)
-            Debug.Log($"[Bomb] Caramelo bomba creado en {GridPos}");
     }
 
     public void ResetForPool()

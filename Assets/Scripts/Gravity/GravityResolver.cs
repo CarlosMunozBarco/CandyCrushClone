@@ -15,7 +15,7 @@ public class GravityResolver : MonoBehaviour
         return false;
     }
 
-    public List<(Vector2Int from, Vector2Int to)> ResolveSingleTick(BoardManager board)
+    public void ResolveSingleTick(BoardManager board)
     {
         var moves        = new List<(Vector2Int, Vector2Int)>();
         var destinations = new HashSet<Vector2Int>();
@@ -39,7 +39,6 @@ public class GravityResolver : MonoBehaviour
             CandyBehaviour candy = board.GetCell(from).RemoveCandy();
             board.GetCell(to).SetCandy(candy);
         }
-        return moves;
     }
 
     // Prioridad: recto abajo > diagonal izquierda > diagonal derecha.

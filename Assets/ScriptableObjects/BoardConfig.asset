@@ -31,7 +31,7 @@ MonoBehaviour:
   cellSpacing: 0
   fallDuration: 0.075
   swapDuration: 0.15
-  cascadeSpawnBias: 0.1
+  cascadeSpawnBias: 0.05
   candyDataSet:
   - {fileID: 11400000, guid: d1c27504b37ab3f4697ac09caf28ebe6, type: 2}
   - {fileID: 11400000, guid: cd6efa11979aa0847a8dacc013191918, type: 2}

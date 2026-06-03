@@ -19,17 +19,12 @@ public class BoardConfig : ScriptableObject
     public CandyData[] candyDataSet;
     public CandyData[] specialCandyDataSet;
 
+    public float CellStep => cellSize + cellSpacing;
+
     public CandyData GetCandyData(CandyType type)
     {
         foreach (var d in candyDataSet)
             if (d != null && d.candyType == type) return d;
-        return null;
-    }
-
-    public CandyData GetSpecialCandyData(CandyType type)
-    {
-        foreach (var d in specialCandyDataSet)
-            if (d != null && !d.specialBehaviour.IsColorIndependent && d.candyType == type) return d;
         return null;
     }
 
@@ -74,9 +69,8 @@ public class BoardConfig : ScriptableObject
 
     public Vector2 ComputeBoardOffset()
     {
-        float step        = cellSize + cellSpacing;
-        float totalWidth  = Columns * step - cellSpacing;
-        float totalHeight = Rows    * step - cellSpacing;
+        float totalWidth  = Columns * CellStep - cellSpacing;
+        float totalHeight = Rows    * CellStep - cellSpacing;
         return new Vector2(-totalWidth / 2f + cellSize / 2f,
                            -totalHeight / 2f + cellSize / 2f);
     }

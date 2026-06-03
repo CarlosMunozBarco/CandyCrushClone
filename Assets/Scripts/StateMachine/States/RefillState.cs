@@ -19,7 +19,7 @@ public class RefillState : IGameState
     private IEnumerator RefillCoroutine(GameStateMachine m)
     {
         var   allAnims = new List<IEnumerator>();
-        float step     = m.boardManager.Config.cellSize + m.boardManager.Config.cellSpacing;
+        float step     = m.boardManager.Config.CellStep;
 
         // Animar caramelos que cayeron lógicamente pero aún no tienen animación
         for (int col = 0; col < m.boardManager.Columns; col++)
@@ -54,8 +54,6 @@ public class RefillState : IGameState
                 CandyData data = PickCandyData(m);
 
                 CandyData special = m.boardManager.Config.RollSpecialCandyData(data.candyType);
-                if (special != null && special.specialBehaviour is BombBehaviour)
-                    Debug.Log($"[Bomb] Bomba seleccionada en refill");
                 if (special != null) data = special;
 
                 CandyBehaviour candy = m.candyPool.Get(data, spawnWorld);

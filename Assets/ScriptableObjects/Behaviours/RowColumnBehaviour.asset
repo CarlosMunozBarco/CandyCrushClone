@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4fbbab9dc9b6649a52c22517be0653, type: 3}
   m_Name: RowColumnBehaviour
   m_EditorClassIdentifier: 
-  spawnChance: 0.05
+  spawnChance: 0.02

@@ -20,13 +20,6 @@ public class BoardManager : MonoBehaviour
     }
     public CandyCell GetCell(Vector2Int pos) => GetCell(pos.x, pos.y);
 
-    public bool IsActive(int col, int row)
-    {
-        CandyCell c = GetCell(col, row);
-        return c != null && c.IsActive;
-    }
-    public bool IsActive(Vector2Int pos) => IsActive(pos.x, pos.y);
-
     public void BuildBoard()
     {
         bool[,] shape = boardConfig.ParseShape();
@@ -87,7 +80,7 @@ public class BoardManager : MonoBehaviour
     public Vector3 GridToWorld(int col, int row)
     {
         Vector2 offset = boardConfig.ComputeBoardOffset();
-        float   step   = boardConfig.cellSize + boardConfig.cellSpacing;
+        float   step   = boardConfig.CellStep;
         return new Vector3(offset.x + col * step, offset.y + row * step, 0f);
     }
     public Vector3    GridToWorld(Vector2Int pos) => GridToWorld(pos.x, pos.y);
@@ -95,7 +88,7 @@ public class BoardManager : MonoBehaviour
     public Vector2Int WorldToGrid(Vector3 worldPos)
     {
         Vector2 offset = boardConfig.ComputeBoardOffset();
-        float   step   = boardConfig.cellSize + boardConfig.cellSpacing;
+        float   step   = boardConfig.CellStep;
         return new Vector2Int(
             Mathf.RoundToInt((worldPos.x - offset.x) / step),
             Mathf.RoundToInt((worldPos.y - offset.y) / step));
@@ -111,14 +104,6 @@ public class BoardManager : MonoBehaviour
         CandyBehaviour candyB = cellB.Candy;
         cellA.SetCandy(candyB);
         cellB.SetCandy(candyA);
-    }
-
-    public void RemoveCandyAt(Vector2Int pos, CandyPool pool)
-    {
-        CandyCell cell = GetCell(pos);
-        if (cell == null) return;
-        CandyBehaviour c = cell.RemoveCandy();
-        if (c != null) pool.Return(c);
     }
 
     public Dictionary<CandyType, int> GetColorCounts()
