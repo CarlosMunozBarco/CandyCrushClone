@@ -13,7 +13,3 @@ A solo project to test different match-3 gamefeel mechanics and to build a clean
 ## Tech
 
 `Unity` `C#` `State Machine` `Object Pooling`
-
-## Role
-
-Solo developer: design and full implementation.
